@@ -1,7 +1,7 @@
 console.log("Initial: App");
 
 // Require
-var createDragDrop = require('./assets/js/dragdrop'); 
+var createDragDrop = require('./dragdrop'); 
 
 // Create
 var dragdrop = createDragDrop({
