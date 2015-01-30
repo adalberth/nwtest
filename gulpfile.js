@@ -6,7 +6,10 @@ var source = require('vinyl-source-stream');
 var buffer = require('vinyl-buffer');
 var watchify = require('watchify');
 var browserify = require('browserify');
+
 var uglify = require('gulp-uglify');
+var sass = require('gulp-sass');
+var cssGlobbing = require('gulp-css-globbing');
 
 
 var bundler = watchify(browserify('./src/js/app.js'));
@@ -24,7 +27,7 @@ function bundle(){
 		.pipe(sourcemaps.init({loadMaps: true}))
 			.pipe(uglify())
 		.pipe(sourcemaps.write('./'))
-    .pipe(gulp.dest('./dist'))
+    .pipe(gulp.dest('./_/js'))
     .pipe(livereload());
 }
 
@@ -34,12 +37,27 @@ gulp.task('reload', function () {
 	livereload.changed('**/*');
 });
 
+// SCSS
+// Compile vendor css and scss
+gulp.task('css', function () {
+	gulp.src('src/scss/*.scss')
+	.pipe(cssGlobbing({
+      extensions: ['.scss'],
+    }))
+	.on('error', gutil.log)
+	.pipe(sass())
+	.pipe(gulp.dest('./_/css'))
+	.pipe(livereload());
+
+});
+
 
 // Watch
 gulp.task('watch', function() {
 	livereload.listen();
 	
 	gulp.watch('./src/js/*.js', ['js']); 
+	gulp.watch('./src/scss/**/*.scss', ['css']); 
 	gulp.watch('./index.html', ['reload']);
 });
 
