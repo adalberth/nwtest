@@ -12,7 +12,7 @@ var sass = require('gulp-sass');
 var cssGlobbing = require('gulp-css-globbing');
 
 
-var bundler = watchify(browserify('./src/js/app.js'));
+var bundler = watchify(browserify('./src/js/index.js'));
 
 
 // Bundle
@@ -38,7 +38,6 @@ gulp.task('reload', function () {
 });
 
 // SCSS
-// Compile vendor css and scss
 gulp.task('css', function () {
 	gulp.src('src/scss/*.scss')
 	.pipe(cssGlobbing({
