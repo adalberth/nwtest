@@ -43,15 +43,16 @@ function createCountdown(opts, callback){
 			
 			setTimeObject(miliseconds);
 
-			miliseconds -= 1; 
 
-			if(miliseconds <= 0){
+			if(miliseconds < 0){
 				callback();
 			}else{
 				update(getTime());
 				clearTimeout(ti); 
 				timeout();
 			}
+
+			miliseconds -= 1; 
 
 
 		}, delay);

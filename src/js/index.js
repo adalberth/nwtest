@@ -7,13 +7,14 @@ var createCountdown = require('./countdown');
 /*
 * CountDown
 */
-var countdownBackground = document.querySelectorAll('.countdown-background')[0];
+var countdownBackground = document.querySelectorAll('.countdown-background');
 var countdownTime = document.querySelectorAll('.countdown-time');
 
 var countdown = createCountdown({
 	seconds:60 * 4,
 	onUpdate:countdownOnUpdateHandler
 },function(){
+
 	console.log("Timer done");
 });
 
@@ -24,35 +25,34 @@ function countdownRefresh(){
 	drawTimer(countdown.getTime());
 }
 
-function countdownOnUpdateHandler(obj){
-	// countdownBackground.style.transform = "translate3d("+ (obj.process - 100) +"%,0,0)";
-	drawTimer(obj);
+function countdownOnUpdateHandler(timeObject){
+	drawTimer(timeObject);
 }
 
-function drawTimer(obj){
-	countdownBackground.style.width = obj.process + "%";
+function drawTimer(timeObject){
+	countdownBackground[0].style.width = timeObject.process + "%";
 	
 	for (var i = 0; i < countdownTime.length; i++) {
-		countdownTime[i].innerHTML = obj.formatedTime.minutes + " " + obj.formatedTime.seconds + " " + obj.formatedTime.miliseconds;
+		countdownTime[i].innerHTML = timeObject.formatedTime.minutes + " " + timeObject.formatedTime.seconds + " " + timeObject.formatedTime.miliseconds;
 	};
 }
 
 /*
 * UI
 */
-var start = document.querySelectorAll('.ui-button-start')[0];
-var stop = document.querySelectorAll('.ui-button-stop')[0];
-var reset = document.querySelectorAll('.ui-button-reset')[0];
+var start = document.querySelectorAll('.ui-button-start');
+var stop = document.querySelectorAll('.ui-button-stop');
+var reset = document.querySelectorAll('.ui-button-reset');
 
-start.addEventListener('click', function(){
+start[0].addEventListener('click', function(){
 	countdown.start();
 });
 
-stop.addEventListener('click', function(){
+stop[0].addEventListener('click', function(){
 	countdown.stop();
 });
 
-reset.addEventListener('click', function(){
+reset[0].addEventListener('click', function(){
 	countdown.reset();
 	countdownRefresh();
 });
