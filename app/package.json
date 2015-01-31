@@ -7,8 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "window": {
-    "frame": true,
-    "toolbar": true
+    "frame": false,
+    "toolbar": false
   },
   "author": "",
   "license": "ISC"
