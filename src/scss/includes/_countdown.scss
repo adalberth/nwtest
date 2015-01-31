@@ -1,0 +1,27 @@
+.countdown-background{
+	display: block;
+	position: absolute;
+	top: 0; left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: black;
+	transform: translate3d(0,0,0); 
+	overflow: hidden;
+	z-index: 1;
+	.countdown-time{
+		color: #fff;
+	}
+} 
+
+.countdown-time{
+	font-family: 'Helvetica';
+	font-weight: 800;
+	font-size: 120px;
+	position: absolute;
+	top: 50vh; left: 50vw;
+	transform: translate3d(-50%, -50%, 0);
+	color: #000;
+	z-index: 0;
+	width: 100vw;
+	text-align: center;
+}
