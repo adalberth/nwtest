@@ -13,13 +13,27 @@ var cssGlobbing = require('gulp-css-globbing');
 
 
 var bundler = watchify(browserify('./src/js/index.js'));
+var NwBuilder = require('node-webkit-builder');
 
+var nw = new NwBuilder({
+    files: './app/**/**',
+    platforms: ['osx64'],
+    // appName: 'Tea Time',
+    // appVersion: '1.0.0'
+});
+
+
+// nwBuild
+gulp.task('nwBuild', function() {
+	nw.build().then(function () {
+	   console.log('all done!');
+	}).catch(function (error) {
+	    console.error(error);
+	});
+});
 
 // Bundle
 function bundle(){
-	//https://github.com/gulpjs/gulp/blob/master/docs/recipes/fast-browserify-builds-with-watchify.md
-	//https://github.com/gulpjs/gulp/tree/master/docs/recipes
-
 	return bundler.bundle()
     .on('error', gutil.log.bind(gutil, 'Browserify Error'))
     .pipe(source('bundle.js'))
@@ -27,7 +41,7 @@ function bundle(){
 		.pipe(sourcemaps.init({loadMaps: true}))
 			.pipe(uglify())
 		.pipe(sourcemaps.write('./'))
-    .pipe(gulp.dest('./_/js'))
+    .pipe(gulp.dest('./app/_/js'))
     .pipe(livereload());
 }
 
@@ -37,15 +51,16 @@ gulp.task('reload', function () {
 	livereload.changed('**/*');
 });
 
-// SCSS
+
+// scss
 gulp.task('css', function () {
-	gulp.src('src/scss/*.scss')
+	gulp.src('./src/scss/*.scss')
 	.pipe(cssGlobbing({
       extensions: ['.scss'],
     }))
 	.on('error', gutil.log)
 	.pipe(sass())
-	.pipe(gulp.dest('./_/css'))
+	.pipe(gulp.dest('./app/_/css'))
 	.pipe(livereload());
 
 });
@@ -57,7 +72,7 @@ gulp.task('watch', function() {
 	
 	gulp.watch('./src/js/*.js', ['js']); 
 	gulp.watch('./src/scss/**/*.scss', ['css']); 
-	gulp.watch('./index.html', ['reload']);
+	gulp.watch('./app/index.html', ['reload']);
 });
 
 
@@ -65,3 +80,4 @@ gulp.task('watch', function() {
 // Default
 gulp.task('default', ['watch','js']);
 gulp.task('js', bundle);
+gulp.task('build', ['nwBuild']);
